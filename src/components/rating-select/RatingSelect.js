@@ -1,14 +1,71 @@
 import PropTypes from "prop-types"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaStarHalf } from "react-icons/fa"
 
 import Card from "../../Card"
 
 import "./RatingSelect.css"
 
+const messages = [
+  {
+    i: 0.5,
+    message: "Awful, not what I expected at all.",
+  },
+  {
+    i: 1,
+    message: "Awful, not what I expected at all.",
+  },
+  {
+    i: 1.5,
+    message: "Awful/Poor",
+  },
+  {
+    i: 2,
+    message: "Poor/Pretty disappointed",
+  },
+  {
+    i: 2.5,
+    message: "Poor/Average",
+  },
+  {
+    i: 3,
+    message: "Average, Could be better",
+  },
+  {
+    i: 3.5,
+    message: "Average/Good",
+  },
+  {
+    i: 4,
+    message: "Good, what I expected",
+  },
+  {
+    i: 4.5,
+    message: "Good/Amazing",
+  },
+  {
+    i: 5,
+    message: "Amazing, above expectations!",
+  },
+]
+
 const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
   const [mouseOverId, setMouseOverId] = useState(null)
+  const [message, setMessage] = useState("")
   const { on, off } = color
+
+  useEffect(() => {
+    // if there is no mouseOverId
+    if (mouseOverId !== null) {
+      return setMessage(messages.find((m) => m.i === mouseOverId).message)
+    }
+
+    if (selectedRating !== 0) {
+      return setMessage(messages.find((m) => m.i === selectedRating).message)
+    }
+
+    setMessage("Select rating")
+  }, [selectedRating, mouseOverId])
 
   const onChange = (i) => {
     select(i)
@@ -32,6 +89,7 @@ const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
   return (
     <Card>
       <h1>How would you rate this app?</h1>
+      <h2>{message !== "" ? message : "Select rating"}</h2>
       <div className="rating-container">
         {Array.from({ length: iconNum }, (_, i) => {
           i = i + 1
