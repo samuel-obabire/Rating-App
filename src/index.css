@@ -21,10 +21,19 @@ body {
 }
 
 .card {
-  width: 25rem;
+  width: 80%;
+  max-width: 25rem;
   background-color: #fff;
   color: #333;
   border-radius: 1rem;
   padding: 2.2rem 3rem;
   margin: 1.2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.card h1 {
+  font-size: 1.5rem;
 }
