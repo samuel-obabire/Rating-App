@@ -89,11 +89,12 @@ const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
   return (
     <Card>
       <h1>How would you rate this app?</h1>
-      <h2>{message !== "" ? message : "Select rating"}</h2>
+      <h2>{message}</h2>
       <div className="rating-container">
         {Array.from({ length: iconNum }, (_, i) => {
           i = i + 1
-          const isChecked1 = selectedRating >= i - 0.5
+          const half = 0.5
+          const isChecked1 = selectedRating >= i - half
           const isChecked2 = selectedRating >= i
 
           return (
@@ -104,15 +105,21 @@ const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
                   defaultChecked={isChecked1}
                   type="checkbox"
                   onChange={() => {
-                    select(i - 0.5)
+                    // select the first full start if the other half is selected
+                    if (i === half || i === 1) return select(1)
+                    select(i - half)
                   }}
                 />
                 <label htmlFor={`starhalf${i}`}>
                   <FaStarHalf
                     size="1.8rem"
-                    color={c(isChecked1, i - 0.5) ? on : off}
+                    color={c(isChecked1, i - half) ? on : off}
                     className="star first-star"
-                    onMouseEnter={() => onMouseEnter(i - 0.5)}
+                    onMouseEnter={() => {
+                      // select the first full start if the other half is selected
+                      if (i === half || i === 1) return onMouseEnter(1)
+                      onMouseEnter(i - half)
+                    }}
                     onMouseLeave={() => onMouseEnter(null)}
                   />
                 </label>
@@ -120,7 +127,6 @@ const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
               <div>
                 <input
                   id={`star${i}`}
-                  className="one"
                   type="checkbox"
                   onChange={() => onChange(i)}
                   defaultChecked={isChecked1}
