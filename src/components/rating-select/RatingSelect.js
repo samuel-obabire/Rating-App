@@ -6,50 +6,56 @@ import Card from "../../Card"
 
 import "./RatingSelect.css"
 
-const messages = [
+const defaultMsg = [
   {
     i: 0.5,
-    message: "Awful, not what I expected at all.",
+    msg: "Awful, not what I expected at all.",
   },
   {
     i: 1,
-    message: "Awful, not what I expected at all.",
+    msg: "Awful, not what I expected at all.",
   },
   {
     i: 1.5,
-    message: "Awful/Poor",
+    msg: "Awful/Poor",
   },
   {
     i: 2,
-    message: "Poor/Pretty disappointed",
+    msg: "Poor/Pretty disappointed",
   },
   {
     i: 2.5,
-    message: "Poor/Average",
+    msg: "Poor/Average",
   },
   {
     i: 3,
-    message: "Average, Could be better",
+    msg: "Average, Could be better",
   },
   {
     i: 3.5,
-    message: "Average/Good",
+    msg: "Average/Good",
   },
   {
     i: 4,
-    message: "Good, what I expected",
+    msg: "Good, what I expected",
   },
   {
     i: 4.5,
-    message: "Good/Amazing",
+    msg: "Good/Amazing",
   },
   {
     i: 5,
-    message: "Amazing, above expectations!",
+    msg: "Amazing, above expectations!",
   },
 ]
 
-const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
+const RatingSelect = ({
+  select,
+  selectedRating,
+  iconNum,
+  color,
+  messages = defaultMsg,
+}) => {
   const [mouseOverId, setMouseOverId] = useState(null)
   const [message, setMessage] = useState("")
   const { on, off } = color
@@ -57,15 +63,15 @@ const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
   useEffect(() => {
     // if there is no mouseOverId
     if (mouseOverId !== null) {
-      return setMessage(messages.find((m) => m.i === mouseOverId).message)
+      return setMessage(messages.find((m) => m.i === mouseOverId).msg)
     }
 
     if (selectedRating !== 0) {
-      return setMessage(messages.find((m) => m.i === selectedRating).message)
+      return setMessage(messages.find((m) => m.i === selectedRating).msg)
     }
 
     setMessage("Select rating")
-  }, [selectedRating, mouseOverId])
+  }, [selectedRating, mouseOverId, messages])
 
   const onChange = (i) => {
     select(i)
@@ -76,7 +82,7 @@ const RatingSelect = ({ select, selectedRating, iconNum, color }) => {
   }
 
   const c = (isChecked, i) => {
-    // determine if the color should be on or off
+    // make color on when checked  or hovered
     if (mouseOverId && mouseOverId >= i) {
       return true
     } else if (isChecked && mouseOverId === null) {
@@ -157,6 +163,44 @@ RatingSelect.defaultProps = {
   },
 }
 
+const f = (props, propName) => {
+  let message = ""
+  const isValid = props[propName].every((entry, index) => {
+    if (typeof entry !== "object" || entry === "null" || Array.isArray(entry)) {
+      message = `Entries of ${propName} must be an object. Received ${"something else"}`
+      return false
+    } else if (Object.keys(entry).length !== 2) {
+      message = `Keys of ${propName} must be 2 and contain only 'i' and 'msg'.
+        Instead recieved ${Object.keys(entry).length} keys`
+      return false
+    } else if (!entry["i"]) {
+      message = `Keys of ${propName} must be 2 and contain only 'i' and 'msg'.
+        Instead recieved ${entry["i"]} for the value of "i" at index ${index}`
+      return false
+    } else if (typeof entry["i"] !== "number") {
+      message = `typeof value i should be number.
+        Instead recieved type  ${typeof entry[
+          "i"
+        ]} for the value of "i" at index ${index}`
+      return false
+    } else if (!entry["msg"]) {
+      message = `Keys of ${propName} must be 2 and contain only 'i' and 'msg'.
+        Instead recieved ${entry["msg"]} for the value of "msg" at index ${index}`
+      return false
+    } else if (typeof entry["msg"] !== "string") {
+      message = `typeof value i should be string.
+        Instead recieved  type ${typeof entry[
+          "msg"
+        ]} for the value of "msg" at index ${index}`
+      return false
+    }
+
+    return true
+  })
+
+  return { isValid, message }
+}
+
 RatingSelect.propTypes = {
   iconNum: PropTypes.number,
   color: PropTypes.shape({
@@ -165,6 +209,15 @@ RatingSelect.propTypes = {
   }),
   select: PropTypes.func.isRequired,
   selectedRating: PropTypes.number.isRequired,
+  messages: (props, propName, componentName) => {
+    // check if an array of length 5 was passed
+    if (!Array.isArray(props[propName]) || props[propName]?.length !== 10) {
+      return new Error(`${propName} needs to be an array of lenght 10`)
+    }
+
+    const { message, isValid } = f(props, propName)
+    if (!isValid) return new Error(message)
+  },
 }
 
 export default RatingSelect
