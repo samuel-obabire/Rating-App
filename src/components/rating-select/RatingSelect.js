@@ -52,7 +52,6 @@ const defaultMsg = [
 const RatingSelect = ({
   select,
   selectedRating,
-  iconNum,
   color,
   messages = defaultMsg,
 }) => {
@@ -97,7 +96,7 @@ const RatingSelect = ({
       <h1>How would you rate this app?</h1>
       <h2>{message}</h2>
       <div className="rating-container">
-        {Array.from({ length: iconNum }, (_, i) => {
+        {Array.from({ length: 5 }, (_, i) => {
           i = i + 1
           const half = 0.5
           const isChecked1 = selectedRating >= i - half
@@ -156,7 +155,6 @@ const RatingSelect = ({
 }
 
 RatingSelect.defaultProps = {
-  iconNum: 5,
   color: {
     on: "#fec107",
     off: "#f9f7f3",
@@ -202,7 +200,6 @@ const f = (props, propName) => {
 }
 
 RatingSelect.propTypes = {
-  iconNum: PropTypes.number,
   color: PropTypes.shape({
     on: PropTypes.string.isRequired,
     off: PropTypes.string.isRequired,
@@ -210,6 +207,7 @@ RatingSelect.propTypes = {
   select: PropTypes.func.isRequired,
   selectedRating: PropTypes.number.isRequired,
   messages: (props, propName, componentName) => {
+    // @to-do add support to customise messages
     // check if an array of length 5 was passed
     if (!Array.isArray(props[propName]) || props[propName]?.length !== 10) {
       return new Error(`${propName} needs to be an array of lenght 10`)
