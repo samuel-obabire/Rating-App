@@ -9,7 +9,7 @@ import "./RatingSelect.css"
 const defaultMsg = [
   {
     i: 0.5,
-    msg: "Awful, not what I expected at all.",
+    msg: "Too bad stuff",
   },
   {
     i: 1,
@@ -110,8 +110,6 @@ const RatingSelect = ({
                   defaultChecked={isChecked1}
                   type="checkbox"
                   onChange={() => {
-                    // select the first full start if the other half is selected
-                    if (i === half || i === 1) return select(1)
                     select(i - half)
                   }}
                 />
@@ -121,8 +119,6 @@ const RatingSelect = ({
                     color={c(isChecked1, i - half) ? on : off}
                     className="star first-star"
                     onMouseEnter={() => {
-                      // select the first full start if the other half is selected
-                      if (i === half || i === 1) return onMouseEnter(1)
                       onMouseEnter(i - half)
                     }}
                     onMouseLeave={() => onMouseEnter(null)}
