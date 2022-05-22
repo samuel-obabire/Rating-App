@@ -62,11 +62,11 @@ const RatingSelect = ({
   useEffect(() => {
     // if there is no mouseOverId
     if (mouseOverId !== null) {
-      return setMessage(messages.find((m) => m.i === mouseOverId).msg)
+      return setMessage(messages.find((m) => m.i === mouseOverId)?.msg)
     }
 
     if (selectedRating !== 0) {
-      return setMessage(messages.find((m) => m.i === selectedRating).msg)
+      return setMessage(messages.find((m) => m.i === selectedRating)?.msg)
     }
 
     setMessage("Select rating")

@@ -9,7 +9,6 @@ body {
 }
 
 .container {
-  max-width: 37rem;
   margin: 1rem auto;
   padding: 0 20px;
 }
@@ -21,12 +20,12 @@ body {
 }
 
 .card {
-  width: 80%;
-  max-width: 25rem;
+  width: 100%;
+  max-width: 45rem;
   background-color: #fff;
   color: #333;
   border-radius: 1rem;
-  padding: 2.2rem 3rem;
+  padding: 1.4rem 1rem;
   margin: 1.2rem auto;
   display: flex;
   flex-direction: column;
@@ -40,4 +39,10 @@ body {
 
 .card h2 {
   font-size: 1rem;
+}
+
+.card h1,
+h2,
+h3 {
+  text-align: center;
 }
