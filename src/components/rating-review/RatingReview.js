@@ -50,7 +50,7 @@ const RatingReview = () => {
     <Card>
       <div className="form">
         <form onSubmit={onSubmit}>
-          <h3>Why did you leave this rating?</h3>
+          <h3>Write a review</h3>
           <div className="input-group">
             <input
               type="text"
