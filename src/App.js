@@ -1,4 +1,3 @@
-import { useState } from "react"
 import "./App.css"
 
 import FeedbackProvider from "./context/FeedbackContext"
@@ -7,12 +6,10 @@ import RatingReview from "./components/rating-review/RatingReview"
 import FeedbackList from "./components/feedbackList/FeedbackList"
 
 const App = () => {
-  const [rating, setRating] = useState(0)
-
   return (
     <div className="container">
       <FeedbackProvider>
-        <RatingSelect select={setRating} selectedRating={rating} />
+        <RatingSelect />
         <RatingReview />
         <FeedbackList />
       </FeedbackProvider>

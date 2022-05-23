@@ -5,18 +5,18 @@ import FeedbackItem from "../feedback-item/FeedbackItem"
 const FeedbackList = () => {
   const { feedback, isLoading } = useFeedback()
 
-  if (isLoading) return <h4>Loading...</h4>
+  if (isLoading) return <div>Loading...</div>
   if (!isLoading && !feedback.length) {
     return <p>No reviews yet</p>
   }
 
-  const feeds = feedback.map(({ id, rating, text }) => {
-    return <FeedbackItem key={id} rating={rating} text={text} />
+  const feeds = feedback.map(({ ...props }) => {
+    return <FeedbackItem key={props.id} {...props} />
   })
 
   return (
     <div className="container">
-      <h4>Reviews:</h4>
+      <h3>Reviews:</h3>
       {feeds}
     </div>
   )

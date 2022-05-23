@@ -1,3 +1,14 @@
 {
-  "feedback": [{ "id": 1, "text": "a great commnet", "rating": 5 }]
+  "feedback": [
+    {
+      "text": "a great commnet",
+      "rating": 5,
+      "id": 1
+    },
+    {
+      "rating": 2,
+      "text": "a great comment",
+      "id": 2
+    }
+  ]
 }

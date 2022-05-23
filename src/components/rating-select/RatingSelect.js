@@ -1,8 +1,9 @@
 import PropTypes from "prop-types"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { FaStarHalf } from "react-icons/fa"
 
 import Card from "../../Card"
+import { useFeedback } from "../../context/FeedbackContext"
 
 import "./RatingSelect.css"
 
@@ -49,15 +50,12 @@ const defaultMsg = [
   },
 ]
 
-const RatingSelect = ({
-  select,
-  selectedRating,
-  color,
-  messages = defaultMsg,
-}) => {
+const RatingSelect = ({ color, messages = defaultMsg }) => {
   const [mouseOverId, setMouseOverId] = useState(null)
   const [message, setMessage] = useState("")
   const { on, off } = color
+
+  const { select, selectedRating } = useFeedback()
 
   useEffect(() => {
     // if there is no mouseOverId
@@ -71,6 +69,16 @@ const RatingSelect = ({
 
     setMessage("Select rating")
   }, [selectedRating, mouseOverId, messages])
+
+  useLayoutEffect(() => {
+    if (
+      [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].find(
+        (n) => n === selectedRating
+      ) === undefined
+    ) {
+      console.error("Rating is not Valid")
+    }
+  }, [selectedRating])
 
   const onChange = (i) => {
     select(i)
@@ -200,8 +208,7 @@ RatingSelect.propTypes = {
     on: PropTypes.string.isRequired,
     off: PropTypes.string.isRequired,
   }),
-  select: PropTypes.func.isRequired,
-  selectedRating: PropTypes.number.isRequired,
+
   messages: (props, propName, componentName) => {
     // @to-do add support to customise messages
     // check if an array of length 5 was passed
