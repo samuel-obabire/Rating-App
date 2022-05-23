@@ -42,6 +42,7 @@ const RatingReview = () => {
         text: review.trim(),
       })
       setReview("")
+      select(0)
     }
   }
 
