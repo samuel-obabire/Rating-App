@@ -1,14 +1,9 @@
 {
   "feedback": [
     {
-      "rating": 3,
-      "text": "cool app",
+      "rating": 4.5,
+      "text": "i love the app",
       "id": 1
-    },
-    {
-      "rating": 4,
-      "text": "i love this",
-      "id": 6
     }
   ]
 }
