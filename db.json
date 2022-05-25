@@ -4,6 +4,11 @@
       "rating": 4.5,
       "text": "i love the app",
       "id": 1
+    },
+    {
+      "rating": 0.5,
+      "text": "i hate it",
+      "id": 2
     }
   ]
 }

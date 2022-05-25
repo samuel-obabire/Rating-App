@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import { useEffect, useLayoutEffect, useState } from "react"
-import { FaStarHalf } from "react-icons/fa"
+import { FaRegStarHalf } from "react-icons/fa"
 
 import Card from "../../Card"
 import { useFeedback } from "../../context/FeedbackContext"
@@ -58,7 +58,7 @@ const RatingSelect = ({ color, messages = defaultMsg }) => {
   const { select, selectedRating } = useFeedback()
 
   useEffect(() => {
-    // if there is no mouseOverId
+    // if there is mouseOverId
     if (mouseOverId !== null) {
       return setMessage(messages.find((m) => m.i === mouseOverId)?.msg)
     }
@@ -122,7 +122,7 @@ const RatingSelect = ({ color, messages = defaultMsg }) => {
                   }}
                 />
                 <label htmlFor={`starhalf${i}`}>
-                  <FaStarHalf
+                  <FaRegStarHalf
                     size="1.8rem"
                     color={c(isChecked1, i - half) ? on : off}
                     className="star first-star"
@@ -141,7 +141,7 @@ const RatingSelect = ({ color, messages = defaultMsg }) => {
                   defaultChecked={isChecked1}
                 />
                 <label htmlFor={`star${i}`}>
-                  <FaStarHalf
+                  <FaRegStarHalf
                     size="1.8rem"
                     color={c(isChecked2, i) ? on : off}
                     className="star second-star"

@@ -1,19 +1,57 @@
-import "./App.css"
+import { FaQuestionCircle } from "react-icons/fa"
+import { Routes, Route, Link, useNavigate } from "react-router-dom"
 
+import "./App.css"
 import FeedbackProvider from "./context/FeedbackContext"
 import Header from "./components/header/Header"
 import RatingSelect from "./components/rating-select/RatingSelect"
 import RatingReview from "./components/rating-review/RatingReview"
 import FeedbackList from "./components/feedbackList/FeedbackList"
+import AboutPage from "./pages/about-page/AboutPage"
 
 const App = () => {
+  const navigate = useNavigate()
+
   return (
     <div className="container">
       <FeedbackProvider>
         <Header />
-        <RatingSelect />
-        <RatingReview />
-        <FeedbackList />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <RatingSelect />
+                <RatingReview />
+                <FeedbackList />
+                <div
+                  style={{
+                    position: "fixed",
+                    right: "1rem",
+                    bottom: "1rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FaQuestionCircle
+                    title="about this app"
+                    onClick={() => {
+                      navigate("/about")
+                    }}
+                  />
+                </div>
+              </>
+            }
+          />
+          <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="*"
+            element={
+              <>
+                Page not found. <Link to="/"> Go to home</Link>
+              </>
+            }
+          />
+        </Routes>
       </FeedbackProvider>
     </div>
   )
