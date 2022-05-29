@@ -50,7 +50,7 @@ const defaultMsg = [
   },
 ]
 
-const RatingSelect = ({ color, messages = defaultMsg }) => {
+const RatingSelect = ({ color, messages }) => {
   const [mouseOverId, setMouseOverId] = useState(null)
   const [message, setMessage] = useState("")
   const { on, off } = color
@@ -60,11 +60,23 @@ const RatingSelect = ({ color, messages = defaultMsg }) => {
   useEffect(() => {
     // if there is mouseOverId
     if (mouseOverId !== null) {
-      return setMessage(messages.find((m) => m.i === mouseOverId)?.msg)
+      // override the default messages if array of message is passed
+      if (messages?.length === 10) {
+        setMessage(messages[mouseOverId * 2 - 1])
+      } else {
+        setMessage(defaultMsg.find((m) => m.i === mouseOverId)?.msg)
+      }
+      return
     }
 
     if (selectedRating !== 0) {
-      return setMessage(messages.find((m) => m.i === selectedRating)?.msg)
+      // override the default messages if array of message is passed
+      if (messages?.length === 10) {
+        setMessage(messages[selectedRating * 2 - 1])
+      } else {
+        setMessage(defaultMsg.find((m) => m.i === selectedRating)?.msg)
+      }
+      return
     }
 
     setMessage("Select rating")
@@ -168,32 +180,8 @@ RatingSelect.defaultProps = {
 const f = (props, propName) => {
   let message = ""
   const isValid = props[propName].every((entry, index) => {
-    if (typeof entry !== "object" || entry === "null" || Array.isArray(entry)) {
-      message = `Entries of ${propName} must be an object. Received ${"something else"}`
-      return false
-    } else if (Object.keys(entry).length !== 2) {
-      message = `Keys of ${propName} must be 2 and contain only 'i' and 'msg'.
-        Instead recieved ${Object.keys(entry).length} keys`
-      return false
-    } else if (!entry["i"]) {
-      message = `Keys of ${propName} must be 2 and contain only 'i' and 'msg'.
-        Instead recieved ${entry["i"]} for the value of "i" at index ${index}`
-      return false
-    } else if (typeof entry["i"] !== "number") {
-      message = `typeof value i should be number.
-        Instead recieved type  ${typeof entry[
-          "i"
-        ]} for the value of "i" at index ${index}`
-      return false
-    } else if (!entry["msg"]) {
-      message = `Keys of ${propName} must be 2 and contain only 'i' and 'msg'.
-        Instead recieved ${entry["msg"]} for the value of "msg" at index ${index}`
-      return false
-    } else if (typeof entry["msg"] !== "string") {
-      message = `typeof value i should be string.
-        Instead recieved  type ${typeof entry[
-          "msg"
-        ]} for the value of "msg" at index ${index}`
+    if (typeof entry !== "string") {
+      message = `Entries of messages must be of type string. Received type ${typeof entry} at index ${index}`
       return false
     }
 
@@ -210,8 +198,7 @@ RatingSelect.propTypes = {
   }),
 
   messages: (props, propName, componentName) => {
-    // @to-do add support to customise messages
-    // check if an array of length 5 was passed
+    if (!props[propName]) return null
     if (!Array.isArray(props[propName]) || props[propName]?.length !== 10) {
       return new Error(`${propName} needs to be an array of lenght 10`)
     }

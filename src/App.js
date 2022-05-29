@@ -21,7 +21,20 @@ const App = () => {
             path="/"
             element={
               <>
-                <RatingSelect />
+                <RatingSelect
+                // messages={[
+                //   "star 0.5",
+                //   "star 1",
+                //   "star 1.5",
+                //   "star 2",
+                //   "star 2.5",
+                //   "star 3",
+                //   "star 3.5",
+                //   "star 4",
+                //   "star 4.5",
+                //   "star 5",
+                // ]}
+                />
                 <RatingReview />
                 <FeedbackList />
                 <div
