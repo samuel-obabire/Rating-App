@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion"
 import { useFeedback } from "../../context/FeedbackContext"
 
 import "./FeedbackList.css"
@@ -12,7 +13,16 @@ const FeedbackList = () => {
   }
 
   const feeds = feedback.map(({ ...props }) => {
-    return <FeedbackItem key={props.id} {...props} />
+    return (
+      <motion.div
+        key={props.id}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <FeedbackItem {...props} />
+      </motion.div>
+    )
   })
 
   const average = (
@@ -28,7 +38,7 @@ const FeedbackList = () => {
         <span>No of reviews: {feedback.length}</span>
         <span>Average review: {average}</span>
       </div>
-      {feeds}
+      <AnimatePresence>{feeds}</AnimatePresence>
     </div>
   )
 }
